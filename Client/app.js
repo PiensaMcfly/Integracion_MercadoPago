@@ -1,4 +1,4 @@
-const mp = new MercadoPago("TU KEY", {
+const mp = new MercadoPago("KEY", {
     locale: "es-AR",
 });
 

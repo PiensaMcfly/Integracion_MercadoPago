@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { MercadoPagoConfig, Preference } from 'mercadopago';
 
-const client = new MercadoPagoConfig({ accessToken: 'TU TOKEN' });
+const client = new MercadoPagoConfig({ accessToken: 'ACCSES TOKEN' });
 
 const app = express();
 const port = 3000;
