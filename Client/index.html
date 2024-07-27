@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="https://sdk.mercadopago.com/js/v2"></script>
+
+    <title>Integracion MP</title>
+</head>
+<body>
+    
+<main>
+    <div class="container">
+        <div class="well well-sm">
+            <strong>Display</strong>
+            <div class="btn-group">
+                <a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+                </span>List</a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
+                    class="glyphicon glyphicon-th"></span>Grid</a>
+            </div>
+        </div>
+        <div id="products" class="row list-group">
+            <div class="item  col-xs-4 col-lg-4">
+                <div class="thumbnail">
+                    <img class="group list-group-image" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxAQEhUQEBMVFQ8SFRAPFRAWFxMYFxUVFRUWFxcRGBUYHiggGBolGxUVITMhJSkrLi4uFx8zODQuNygtOisBCgoKDg0OFQ8QFSsZFRktKystKy0rLS0tLS03Ny0tKzY3LSsrKys0Ky0tLSstKy0rKysrKys3KystKystKysrK//AABEIAKgBLAMBIgACEQEDEQH/xAAcAAEAAQUBAQAAAAAAAAAAAAAABgIDBAUHAQj/xABFEAABAwIDBAYHBAcHBQEAAAABAAIDBBEFEiEGMUFRE1JhcYGRBxQiMkKh0XKSscEWI2KCk6LhFTNDU7LT8FRjwtLxJP/EABYBAQEBAAAAAAAAAAAAAAAAAAABAv/EABgRAQEBAQEAAAAAAAAAAAAAAAARARIh/9oADAMBAAIRAxEAPwDuKIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIrc8zWNL3kNa0ElxNgBzJQXEuucbQ+k5sbiykjDwLjpX3AJ7Gixt3kKJT7d4tNfo3ZR/22NA7sz7n5qzUruReFQZ2r50r8dxY3L56m3Y9wH8hWlmxercMxqZjrbWaS/lmV5K+ojVs5qk1zOa+VnYnUH/Hm/iyfVWXYvUD/Hm/iyfVXlK+rTiMfNP7Sj5r5Vhxyu+CoqfCSU/ms+HabF27ppz2PaHf6m3TnCvpwYjGfiCutqmH4h5r5wg9IGJR6zRsfGN92OYfBw0Hkum0GPR+qCvscjmMexjtLl+5pI5a3twBUmFdGa4HcVUuS0+39RmuDER1TGQPAh1x81L8D23gmIZN+qkdYNJN43HkH/CexwF+F1NxalaIiiiIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAi8JXO9otsOnd0NEZfYLmzENcC0g2yd9wdOxXME5xXE4qaMyzOytGnaT1QOJXG9r9rpqx2X3YQfZiHkC7rOXmMS1tS4Z2SnKAxmZkgAHK5G/mSqKLBZI/adFIZLA36OSwvy03rWZmM1rqPC7+1Lv3hn1+iz3EDQbtyyH00v8AlS/w5PorMlJKNSx4/df+ACVGsxKcm0LDZ8m9w+Fg953fwHaVrsbo4WQlwaAWABpGhvewvzVBq5mPe8085e82B6KSzWNuA2xA7+261eJ1c8jSHNeG78vRuaO/W5+aqtO56rppshzWB7CLqw/Tfp36KtjRf2iOdrhUSqgxRsnsnQ8ln3UHc4A3b+J/FZseMyts3M09uvzuFmDO2rrCxgjb8dy77I4ef4LpuJ0Do6GkpmGxZZ5N7W6OMM1PfIVySja6srYI32JdJHGQL2ytcXO3jlmXSvSPJ0kzYxa1PFFcftSueSfLJ5phrPpqGme0GR8d+NiCbjf7queoUjB/fDKdC0te4f6e9Yuy7qSOBt5o+ncS57XkWj1sGgHsAJPapEx1A8fraulA00L4x89LLSMzZnHmQyQ0vTdLDPnZCSHB0b2NLuiJcBdha1xbxBaRexFpyuWPw6IywOo5WSwxztqTM1wLWFmjogeJP5qcHaCMb9TyCxuLmt2i1tLioefdIHNbEFZaeoiICIiAiIgIiICIiAiIgIi020WK9AzKwZpHWaBe1rm1yeCDZOrIw4szDOBmy8bc7eXmtNjG08cGjRmedzfzPIKHYPUkOqap4syICmaL3LpCbuF+J0Zr2q/gGCvq3Gea4jJJ7Xn/ANeHgtRndbbD8Sras3a7JHzAsPA7z5qR07Mg9pznHmT+S8jjbG3K0WA4KxNOqMw1ICo9daN1gtRNUrXzVaRKkhxIc1bfig5hRKWsKxZKsqwqZnE28wqDXMP/ANKhfrZXoqnKwqYmojPE+DnfVU/qnaAv8HuUYbLlGaVxA4NGrj9FrMT23jg/Vxe+bANaQXH7Tzo1QTmXDWHV0kje9/5b1pa2hpRfNM4jlYH5lQeqnrquOSSOojBjzOdGwudYBpPtPdYtP7tlqNi46mWpjBc8xPLs4cSQQATex3bt6Ccz4bh7tzM3eyM/ksOXY+lk3Qxn7UTPyUwpsLawaDXmrz6drRmc4NaPicQB5lEQik2Op6aRs4ZGyRpJa5oIIuCL8uKs4tRNkfJJkzTvA9pxdY5QA27QbWFhoui01DHLY5mubbQtIIPisluCwgg5eanivnnDPR/U1L8kkOQiQySVjiSHsO5kce4m/FdEw/0cUUYH6jO4W9qRz3Xtxy3y/JdOFNGzgFSZmj3Y3O7hYeZSqi9PgDgA1oDWgWDQLADkAFsaPAbH2llYlNO9jmNhs1wsXZyHW7Mo081yva/bybB3NpqeOPM8dMWuMjw1pJaDd7jqcp0FtB2pUjsMNE1osFkQHgeC0VJj4dhrK57AHup46joxp7b2gtYOV3EDxXF34jU4fXxYi6qfK6SVrKppIyFjiA5rbGwDb6NNrWFtxtlp9FoqWOuARuIBVSiiIiAiIgIiICIiAiIgtVM7Y2lzjYDjwHaeQ7VEdo2ufEXtOouSdCLH5EKUSSXPZuWO3DKfNn6GMOvmuGtGu/NYaE9q1iVEosCJ9XpXgtjGaaY9eV4LnM7SB7N+V+SmLY2sAa0WAAAA3ADgFXKwHQgEHgQDdYkkY4XHc5wHkDZEJpFqq2qDBc31IboCdT3LKmjPWd53/Fa+dh19o+TforEYclQXC9iOw2v8lgyyLIqGO6x8m/RYErD1j5N+i1iKHuVolHNPM/L6KgvA4XPbqPLcgqbc2AFydP6dqxsXxqGku1xDpuLBrk+2Rx/ZGvMjjVNWS2dkflkc0tEu9zbiwIvusoc7ZSZ2+Ztzrc5iTfiSd5QxKNl6umrXvdWTsZFYBsZkyPeTzA1sOQt9Y7tpDQwVjTRDNCxrekZmeLuJcHZXSXO4jXcrDNkHcagD7LHfUK/FslCPee9x/db9VIqqnx50oNNESI3sbG9zWCNz2gj2HNaX5yd17i9zobrpOyGD9C3pHC0jhYDqN6t+ZsCe4Dhc6TZbZuKM5msA7d58ypm/BY52BrwRYgghzhYjnY6jsOiFZlTUMhY6SQ2a0Fx8AuIbXMmxSQyzzSCEXMcLGPdHG2+hJaCC7m4/gt76R6c4eG5G0z6l7ZZYg2BzSGRlmdzy6R3SENdcNOnsk67lzt+L1DqczPmkMuSN2fO7MCamUEDkLNaLbtFlW+2HxafBamNxlEmGTvEcjmm7GEmwkt8DgbX5i45W+j3TDTUf8C+ZBIXsPT2dIWlkrNM0+VoMu7TpIw5oDt5LSOIt3LZytL6SB7nBzjGwF/WIFi7xtfxSKlfTN5hUOqmBaaSuA4rBnxLtVjNbupxHT2dO1fM3pLqXVOKzRsAc7PHTM33LgGty7+sSu5x1Re63DieQ4lcb9HFK7EcXFQ5o6KOSWtfpxzEsaT9pzfJFx1/baRtLQMhBs0OihHdGyw/mDFxbFYctO6Mi7nRiQHXRsDI2Zj3l7tV2HbyIVD6WlO6Z8nm3K4cdNx14LmNREZi5jcjhMHQlzDmZGcvuF97ufmJ3gAHNYG91FfRWDOJp4Sd5iiJ8WBZitU0WRjWcGta3yACurKiIiAiIgIiICLwq25BdusTFXOEMhZYvyPygmwvlO88F49q1G0sBfS1DW73QTtHeY3WQQSPauqgflcJA3NYFwzN32Guot3FSKDbSUe/Gw91wfzXz5hlXNGxphklboNIpNPFhIN1sf0qr2kAzl50GWRgv/wA8Vtl31u2sfxQnwcPoqv0tpjvZIPun81zSq2gpYnmJ8oEjTZwyvNjxFwF63H6U7pmeOYfiFB0Z+0lKeuPAfVY0mNU5+I+RUHbikJ3SxffCuCpYdzmHucFUiUS4jAdzvkVhS1UfWC0wN9wv3EFeOJHwu/l/Mq0jYPmB4qw9y0FRtFTse6N/SB7bXGXdfdqCsKsx6B7bMlex2ntZH6C+u4oRKSqchPLzUN/tRn/Uu+5P/uK82qB19Ydb7E/+6lWJjHSOPFvmtzhmAh5u57fIlQfCmsmcIxVWkO4Fs7Se49LYlTnBaWSkbnfO6WMkXDhrGDpma65JF99yfkiRK6KgjjAF727FkSVQYPZbrzP0VEclwqJGXUHGfSbjb317o7+1DHFLGdbiSO8jgOxzHOaedm8lFvVQzRoDm5ohGwkHNcyTtza+6BJGTfgLbyFIq2d1RiVQIZTeOYtME7WuhLmvEQLHk2Ybjd7JJNgTcrcbb4QyiY17HingL3iR4aXSAlojaWggkbi3hpxUaQGZrxNG9zi1kRDYjbNJObkve2Mbw5xJzGwtbeup7BVRbSuhNx0E0kbWm9wze1p7gQuXVYkHSvpAHNIzPqmEPlJJFwcusTdd2UbjqQulei+mzmoBDi0SQ2DQTc9BF5cdTYK4mpBJI47ldpsLmlOjTZb4NjjGoYz7ZzO+4w2/mWBV4vETkBfKf8vh/DjGo77pWYyocLjbFI1rrvcx7c41s4tIAHPU6qObJYHHh0bgS0zyuzyubuHEMHZckk8fAK5iONmNt5ZIqeP9twGnCzW38iQoVi/pCw6PRklRUSa6xhsUV+913nw80VsPSLiwFVTsGpERIGm+SUM17Mt/C/NavBKcyYhGMoOaSNjpAAH2E0Vg4ttnBZf3r+7cWvZQup2l9arWzuGVga2IA3Nhr7Rtfi4nwXTNgqNkU4ke8Pyhkji03b0gibE1rXcRbO7su3tU1p2derUw4iwrMjqWnisqykVDZAqroPUREBERAVJCqXhCC05qsvivoRcHQjmsohUWQfP20vouqoXuNHlqacFxEJA6WMXvly7yBuBaT3KO4Ds9UzVMcXQyDo3dM9puAGx+2bh2ovlt4r6UxTCWztsHGOTQiVoaSLcCHDUfPtUMxXB8eiP/AOaSCdgvbOXMePB1x/MtVHz9MXPe57vee5zz3uJJ+ZVQaeHyXV8SZjDbmowqN4FyXtMJv4Ak/JRapxumBtPhxaRvsXN/EBURHMe1eZlJv7Twp2+CZncQf/JeE4S745m94P8AVBG2lSTZTGnxStZI4mF5ykEk5SdxF92q8NDhrvdqnD7Q+oV2nwmizA+ttcAQct2gm3C/BEb30l7PB8bMQhbctaIpWAfCLnPpxBPkexc3IH7PmV02txudzDFFNAI3Agi4N7+Khf6Ku4Sxgcgb+G9DGk0/Z+ayWyssBkZ5rat2TdxnZ5f1V5myTPiqB4N/qkWtKJgCHNaxrmkODhvBBuCO1dn2WxwVMDJHWOduV44Zh7Lx3XBXOY9kqX455D9kMH4gqX4FNRUrBGxsha2+hcNSTcknvRNTvBagmPLe7oyY+8DcfukLYFzhqQbKI0e0rGkluVlzewN+FuPcr9XtKHNJLyQAXHXgBcqpjmMtaI6qR77PPSVc7IYv7thGbNLI6/6yXW1rkAm2g9k5mJ1z22eD0k9KyGkyusemp+hvIwg6GRr2SkG2uTmGrT1UJgvI53SUvtTxPsBeHM14jLhvc6UsaRwMTuYWuhmmkgL2EmbLFNm095tTUHN5LLTKgia6eO8bc0j2uiqYbxPcywf0rmi7BobGwbrcXU82Xx2Ongke+ojiE8r5s0jiXubuaWxtBc45QOQ13qIQQiKISFpbJK13QM1DoYpbGQEHcA8PDT+1fuxIcEfK7MRqfkOAQS7EfSFSi4hjmqH9aQiKP7jSXEd5UfrNr8RnGRjmwxH4IWho8962mG7IE6uFlJ6DZiNu8XVI5nFs9NUG78znHe5xJPmVt6T0cB/vkhdSpcLDdzQFsoaDsUVzWh9GFKCC4yH9634KcYPgkcDQyJtmjmST5lSCKi7FmRUtuCDAp6YrYww2WRHAsiOIKC3EwrJa1VAL1QEREBERAREQEsiIPLLHrZywXAusleEXQQ3FMdqBcBrSORaCPmoRjWIukvngi7w0D8F12pwyJ+8WK1NVsnE/l5KjgtfA0/4YBWolpW9Vd5qtgWu3WWpqfR047glHEpKcDcFjuh5LsNR6OZOqfJa6b0eyD4T5KjlZa4JneOJXR5dgper8ljv2Fl6p8kRARUyD4nKr12bruU3Ow03VPkvP0Gm6p8laRChiE4+Ny9OKVHB5+X0U3bsLN1fksmLYCQ72JSOeOxaqG6R3k36KxPjFU4FrpX5SLEbgQd4NuC6zTejm/vMW1pvRvAPejB70I5JgWPiNhgnY2amdvicSLHrNcDdp0G48ByW8pMTpNGUlIXPsGgPe+W1nOeDlAG4udvPFdVpNgqRhv6vHfmWA/it5SbPsYLNY1o5BoH4KK5pg2z80hM04c6R9tTpYcABu8gByUtosGy8ApbHhduHyWSzDwOCCPw4f2LPhouxbhtH2K+2mUGripFlMpws4QhVhgCUY8VNzWQ2MDgqkUHlksvUQEREBERAREQEREBERAREQEREBERAXhC9RBSY28h5BUGnYfhHkFdRBZ9Vj6o8gnqsfVHkryILPqrOqPJPVmdUK8iC10DeS9ELeSuIgoEY5L3IOSqRB5ZeoiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIgIiICIiAiIg//Z" alt="" />
+                    <div class="caption">
+                        <h4 class="name">
+                            Porsche 2024</h4>
+                        <p class="group inner list-group-item-text">
+                            Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                            sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <p class="price">
+                                    $2.100</p>
+                            </div>
+
+
+                            <div class="col-xs-12 col-md-6">
+                                <button id="checkout-btn" class="btn btn-success">COMPRAR</button>
+                            </div>
+                        <div id="wallet_container"></div>
+                        
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+<div id="wallet_container"></div>
+
+            <!-- <div class="item  col-xs-4 col-lg-4">
+                <div class="thumbnail">
+                    <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" />
+                    <div class="caption">
+                        <h4 class="group inner list-group-item-heading">
+                            Product title</h4>
+                        <p class="group inner list-group-item-text">
+                            Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                            sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <p class="lead">
+                                    $21.000</p>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item  col-xs-4 col-lg-4">
+                <div class="thumbnail">
+                    <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" />
+                    <div class="caption">
+                        <h4 class="group inner list-group-item-heading">
+                            Product title</h4>
+                        <p class="group inner list-group-item-text">
+                            Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                            sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <p class="lead">
+                                    $21.000</p>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item  col-xs-4 col-lg-4">
+                <div class="thumbnail">
+                    <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" />
+                    <div class="caption">
+                        <h4 class="group inner list-group-item-heading">
+                            Product title</h4>
+                        <p class="group inner list-group-item-text">
+                            Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                            sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <p class="lead">
+                                    $21.000</p>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item  col-xs-4 col-lg-4">
+                <div class="thumbnail">
+                    <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" />
+                    <div class="caption">
+                        <h4 class="group inner list-group-item-heading">
+                            Product title</h4>
+                        <p class="group inner list-group-item-text">
+                            Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                            sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <p class="lead">
+                                    $21.000</p>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="item  col-xs-4 col-lg-4">
+                <div class="thumbnail">
+                    <img class="group list-group-image" src="http://placehold.it/400x250/000/fff" alt="" />
+                    <div class="caption">
+                        <h4 class="group inner list-group-item-heading">
+                            Product title</h4>
+                        <p class="group inner list-group-item-text">
+                            Product description... Lorem ipsum dolor sit amet, consectetuer adipiscing elit,
+                            sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                        <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                                <p class="lead">
+                                    $21.000</p>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                                <a class="btn btn-success" href="http://www.jquery2dotnet.com">Add to cart</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+        </div>
+    </div>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
